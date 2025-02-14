@@ -2,7 +2,7 @@
   <div class="flex justify-center items-center h-screen p-10">
     <div class="grid md:grid-cols-2 grid-cols-1 border rounded-3xl">
       <div class="flex justify-center items-center p-5">
-        <form @submit.prevent="submitForm">
+        <form @submit.prevent="handlesSubmit">
           <h1 class="text-center mb-10 font-bold text-4xl">Connexion</h1>
           <input
             v-model="email"
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "LoginForm",
   data() {
@@ -47,12 +49,27 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    handlesSubmit() {
       // Logique de soumission du formulaire
       console.log("Email:", this.email);
       console.log("Mot de passe:", this.password);
 
-      // Ajoute ici la logique d'authentification
+      axios
+        .post("http://62.72.5.95:5013/api/users/login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          console.log(response.data);
+          localStorage.setItem(
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWUyMDUyMDA3YjkyNDU4NWVkYmNlNiIsImlhdCI6MTY5Mzk2MTQ0OSwiZXhwIjoxN2NTUQ5fQ.l3B2rMSs6DZ9b5T2cO5Kmg9cCmnrCQx83aSnluqI",
+            response.data.token
+          );
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
   },
 };

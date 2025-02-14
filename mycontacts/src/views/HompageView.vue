@@ -7,9 +7,10 @@
     </h1>
   </div>
 
-  <div class="container">
+  <div>
     <!-- Modal toggle -->
     <button
+      @click="addModal = true"
       data-modal-target="authentication-modal"
       data-modal-toggle="authentication-modal"
       class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 ml-20 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -20,6 +21,7 @@
 
     <!-- Main modal -->
     <div
+      v-if="addModal"
       id="authentication-modal"
       tabindex="-1"
       aria-hidden="true"
@@ -150,6 +152,11 @@ export default {
     FooTer,
     NavBar,
     ConTacts,
+  },
+  data() {
+    return {
+      addModal: false,
+    };
   },
 };
 </script>
